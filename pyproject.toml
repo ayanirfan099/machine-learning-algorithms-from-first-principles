@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "first-principles"
+version = "0.1.0"
+description = "Numerical implementations and controlled reference comparisons"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26", "scikit-learn>=1.4", "matplotlib>=3.8"]
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.9"]
+[project.scripts]
+first-principles = "first_principles.cli:main"
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+[tool.ruff]
+line-length = 100

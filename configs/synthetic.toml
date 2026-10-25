@@ -1,0 +1,3 @@
+seed = 42
+# CLI defaults: 400 regression, 500 classification, 300 clustering samples.
+# Optimizer learning rate 0.05; 2000 linear / 4000 logistic steps.

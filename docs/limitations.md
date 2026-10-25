@@ -1,0 +1,1 @@
+Binary logistic classification only; dense in-memory data; no missing values, sparse inputs or automatic scaling. Label validation is numeric. KNN complexity is linear in training size plus sorting. K-means may find local optima. CPU-only, one experimental seed. No real-world performance claims.

@@ -1,0 +1,40 @@
+{
+  "seed": 42,
+  "data": "synthetic generated regression, classification and blobs",
+  "python": "3.12.14",
+  "linear_mse": 0.011106234146938116,
+  "linear_prediction_max_difference": 3.552713678800501e-15,
+  "logistic": {
+    "accuracy": 0.824,
+    "precision": 0.8059701492537313,
+    "recall": 0.8571428571428571,
+    "f1": 0.8307692307692308,
+    "roc_auc": 0.9160266257040451,
+    "sklearn_accuracy": 0.824,
+    "probability_max_difference": 0.005565903033256436
+  },
+  "knn": {
+    "euclidean": {
+      "agreement": 1.0,
+      "accuracy": 0.936
+    },
+    "manhattan": {
+      "agreement": 1.0,
+      "accuracy": 0.936
+    }
+  },
+  "kmeans": {
+    "inertia": 566.8595511244132,
+    "sklearn_inertia": 566.8595511244131,
+    "adjusted_rand_agreement": 1.0
+  },
+  "pca": {
+    "explained_variance_ratio": [
+      0.5055932721697134,
+      0.2633302517463678
+    ],
+    "sklearn_variance_max_difference": 0.0,
+    "reconstruction_mse": 0.23147969005788474
+  },
+  "runtime_seconds": 0.6201890929999649
+}
