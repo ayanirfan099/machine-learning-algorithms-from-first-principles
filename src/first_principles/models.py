@@ -1,16 +1,19 @@
 """NumPy estimators with deterministic initialization and explicit numerical losses."""
 
+from typing import Self
+
 import numpy as np
+from numpy.typing import ArrayLike
 
 
-def matrix(x):
+def matrix(x: ArrayLike) -> np.ndarray:
     x = np.asarray(x, dtype=float)
     if x.ndim != 2 or not x.size or not np.isfinite(x).all():
         raise ValueError("Expected a nonempty finite 2D matrix")
     return x
 
 
-def supervised(x, y):
+def supervised(x: ArrayLike, y: ArrayLike) -> tuple[np.ndarray, np.ndarray]:
     x = matrix(x)
     y = np.asarray(y)
     if y.ndim != 1 or len(y) != len(x) or not np.isfinite(y).all():
@@ -18,7 +21,7 @@ def supervised(x, y):
     return x, y
 
 
-def sigmoid(z):
+def sigmoid(z: ArrayLike) -> np.ndarray:
     z = np.asarray(z, dtype=float)
     return np.exp(-np.logaddexp(0, -z))
 
@@ -34,7 +37,7 @@ class LinearRegression:
         error = x @ weights - y
         return np.mean(error**2), 2 * x.T @ error / len(x)
 
-    def fit(self, x, y):
+    def fit(self, x: ArrayLike, y: ArrayLike) -> Self:
         x, y = supervised(x, y)
         self.n_features_in_ = x.shape[1]
         x = np.c_[np.ones(len(x)), x]
@@ -48,7 +51,7 @@ class LinearRegression:
             self.weights_ -= self.learning_rate * grad
         return self
 
-    def predict(self, x):
+    def predict(self, x: ArrayLike) -> np.ndarray:
         x = matrix(x)
         if x.shape[1] != self.n_features_in_:
             raise ValueError("Feature count mismatch")
@@ -61,16 +64,16 @@ class LogisticRegression(LinearRegression):
         z = x @ weights
         return np.mean(np.logaddexp(0, z) - y * z), x.T @ (sigmoid(z) - y) / len(x)
 
-    def fit(self, x, y):
+    def fit(self, x: ArrayLike, y: ArrayLike) -> Self:
         if not np.isin(np.asarray(y), [0, 1]).all():
             raise ValueError("Binary labels must be 0 or 1")
         return super().fit(x, y)
 
-    def predict_proba(self, x):
+    def predict_proba(self, x: ArrayLike) -> np.ndarray:
         positive = sigmoid(super().predict(x))
         return np.c_[1 - positive, positive]
 
-    def predict(self, x):
+    def predict(self, x: ArrayLike) -> np.ndarray:
         return (self.predict_proba(x)[:, 1] >= 0.5).astype(int)
 
 
@@ -80,14 +83,14 @@ class KNearestNeighbors:
             raise ValueError("Invalid neighbor count or metric")
         self.neighbors, self.metric = neighbors, metric
 
-    def fit(self, x, y):
+    def fit(self, x: ArrayLike, y: ArrayLike) -> Self:
         self.x_, self.y_ = supervised(x, y)
         self.x_, self.y_ = self.x_.copy(), self.y_.copy()
         if self.neighbors > len(self.x_):
             raise ValueError("More neighbors than samples")
         return self
 
-    def predict(self, x):
+    def predict(self, x: ArrayLike) -> np.ndarray:
         x = matrix(x)
         if x.shape[1] != self.x_.shape[1]:
             raise ValueError("Feature count mismatch")
@@ -108,7 +111,7 @@ class KMeans:
         self.clusters, self.n_init, self.iterations = clusters, n_init, iterations
         self.tolerance, self.seed = tolerance, seed
 
-    def fit(self, x):
+    def fit(self, x: ArrayLike) -> Self:
         x = matrix(x)
         if self.clusters > len(x):
             raise ValueError("More clusters than samples")
@@ -139,7 +142,7 @@ class KMeans:
                 self.n_iter_ = iteration + 1
         return self
 
-    def predict(self, x):
+    def predict(self, x: ArrayLike) -> np.ndarray:
         x = matrix(x)
         if x.shape[1] != self.cluster_centers_.shape[1]:
             raise ValueError("Feature count mismatch")
@@ -150,7 +153,7 @@ class PCA:
     def __init__(self, components=2):
         self.components = components
 
-    def fit(self, x):
+    def fit(self, x: ArrayLike) -> Self:
         x = matrix(x)
         if len(x) < 2 or not 1 <= self.components <= min(x.shape):
             raise ValueError("Invalid component count or sample count")
@@ -166,13 +169,13 @@ class PCA:
         )
         return self
 
-    def transform(self, x):
+    def transform(self, x: ArrayLike) -> np.ndarray:
         x = matrix(x)
         if x.shape[1] != len(self.mean_):
             raise ValueError("Feature count mismatch")
         return (x - self.mean_) @ self.components_.T
 
-    def inverse_transform(self, z):
+    def inverse_transform(self, z: ArrayLike) -> np.ndarray:
         z = matrix(z)
         if z.shape[1] != self.components:
             raise ValueError("Component count mismatch")

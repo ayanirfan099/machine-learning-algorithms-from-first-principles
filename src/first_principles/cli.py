@@ -127,7 +127,7 @@ def run(output, seed=42):
     return results
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Execute synthetic NumPy/sklearn comparisons")
     parser.add_argument("--output", default="results/synthetic")
     parser.add_argument("--seed", type=int, default=42)
