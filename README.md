@@ -2,8 +2,10 @@
 
 NumPy implementations of linear regression, binary logistic regression, nearest neighbors, K-means and PCA, with analytical gradient checks and measured scikit-learn comparisons.
 
-## Research question
-How closely do explicit numerical implementations reproduce established estimators on controlled synthetic problems?
+[![CI](https://github.com/ayanirfan099/machine-learning-algorithms-from-first-principles/actions/workflows/ci.yml/badge.svg)](https://github.com/ayanirfan099/machine-learning-algorithms-from-first-principles/actions/workflows/ci.yml) ![Python 3.12 CI](https://img.shields.io/badge/Python-3.12_CI-3776AB) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+![Optimization loss on the generated seed-42 problems](results/synthetic/loss.png)
+
 
 ## Verified experiment
 Seed 42; generated data, not real-world benchmarks. Train-only scaling and a held-out classification/regression split. Unsupervised methods compare decompositions of the same input, not predictive generalization.
@@ -19,7 +21,6 @@ Seed 42; generated data, not real-world benchmarks. Train-only scaling and a hel
 
 All measurements and configuration context: [metrics](results/synthetic/metrics.json).
 
-![Optimization curves](results/synthetic/loss.png)
 ![Decision boundary](results/synthetic/boundary.png)
 ![Clustering](results/synthetic/clusters.png)
 ![PCA](results/synthetic/pca.png)
@@ -41,3 +42,5 @@ ruff format --check .
 No sklearn estimator is used inside the custom algorithms. sklearn supplies datasets, metrics and reference implementations. K-means uses random sample initialization rather than sklearn's k-means++; logistic reference uses nearly unregularized C=1e8. Fixed iterations are not a universal convergence guarantee. Future work includes multiclass support and scalable distance search.
 
 References: NumPy linear algebra documentation; scikit-learn estimator documentation; Lloyd (1982), *Least squares quantization in PCM*, IEEE TIT, DOI 10.1109/TIT.1982.1056489. MIT license; third-party libraries retain their own licenses.
+## Research question
+How closely do explicit numerical implementations reproduce established estimators on controlled synthetic problems?
