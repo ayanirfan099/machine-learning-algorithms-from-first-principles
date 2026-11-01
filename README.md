@@ -1,4 +1,4 @@
-# Machine learning algorithms from first principles
+# Machine Learning from First Principles
 
 NumPy implementations of linear regression, binary logistic regression, nearest neighbors, K-means and PCA, with analytical gradient checks and measured scikit-learn comparisons.
 
